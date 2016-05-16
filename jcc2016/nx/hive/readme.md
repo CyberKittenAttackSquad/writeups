@@ -32,7 +32,7 @@ Program received signal SIGINT, Interrupt.
 (gdb) 
 ```
 
-Several of these functions didn't disassemble in binary ninja, but I took some of these addresses and started hunting around for function preambles in the text editor and manually disassembling functions. Eventually I found my way to sub_401058 (that's #5 in our back trace), and this is the function that handles authentication.
+Several of these functions didn't disassemble in binary ninja, but I took some of these addresses and started hunting around for function preambles in the binary ninja hex view and manually disassembling functions. Eventually I found my way to sub_401058 (that's #5 in our back trace), and this is the function that handles authentication.
 
 Of course, this wasn't the right way to do find this function. The right way to do this would be to start from `_start`, find `main`, and we would have found this function as the second one called. Normally this is what I would have done, but when there are only a few hours left in the CTF and you're desparate for points *sometimes* the decision making progress is a little flawed.
 
