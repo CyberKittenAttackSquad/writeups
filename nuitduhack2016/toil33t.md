@@ -1,5 +1,4 @@
-This is a web application which lets us log in using a username,
-password, and email. Once we login, we are provided with a cookie. We know that AES is being used, but we do not know the encryption mode.
+This is a web application which lets us log in using a username, password, and email. Once we login, we are provided with a cookie. We know that AES is being used, but we do not know the encryption mode. The goal is to login in as the administrator.  
 
 One of the main issues when examining cookies is determining if there is any pattern between user input and resulting cookie. Discerning this input-output relationship is closely related to detecting the block cipher mode of operation. 
 
