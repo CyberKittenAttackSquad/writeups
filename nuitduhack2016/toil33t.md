@@ -25,4 +25,4 @@ So we know two pieces of information:
 * The structure of the plain text cookie (determined by /session ) 
 * The encrypted cookie was created with AES in ECB mode (determined by longest common substring analysis) 
 
-Once we know this we can mount a cut-paste-and-attack to manipulate the final form of the cookie based on our initial input. We would like for the cookie to decrypt with "is_admin" set to true.  
+Once we know this we can mount a cut-paste-and-attack to manipulate the final form of the cookie based on our initial input. We want the cookie to decrypt with "is_admin" set to true.  
