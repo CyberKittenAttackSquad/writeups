@@ -24,5 +24,7 @@ Looking the html source code of the web page we can find /session decrypts our c
   "username": "a"
 }`  
 
-So we know two pieces of information. 1) The structure of the plain text cookie and 2) The encryped cookie was created with AES in ECB mode. 
+So we know two pieces of information: 
+* The structure of the plain text cookie 
+* The encryped cookie was created with AES in ECB mode. 
 
