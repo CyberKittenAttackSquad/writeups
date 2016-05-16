@@ -1,8 +1,7 @@
 This is a web application which lets us log in using a username,
 password, and email. Once we login, we are provided with a cookie. We know that AES is being used, but we do not know the encryption mode used.
 
-On of the main issues when examining cookies is determining if there
-is any pattern between user input and the cookie created. This is equivalent to detecting the cipher mode used. 
+One of the main issues when examining cookies is determining if there is any pattern between user input and resulting cookie. Discerning this input-out relationship is closely related to detecting the cipher mode used.  
 
 One method of detecting if an encrypted cookie is using a weak mode (like ECB) is by solving the longest common substring problem. Usually ECB mode detection is demonstrated visually (https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_Codebook_.28ECB.29), but by computing the least common substring of cookies you can detect cipher modes that preserve plaintext patterns. 
 
