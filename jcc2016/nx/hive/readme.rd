@@ -48,8 +48,8 @@ About 30 minutes later re400, *movfu*, came up, and I switched over to *movfu*, 
 
 Diving into the `do_authentication` function.
 
-![binary ninja do_authenicate() 1](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/bn-do_authenticate_1.tiff)
-![binary ninja do_authenicate() 2](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/bn-do_authenticate_2.tiff)
+![binary ninja do_authenicate() 1](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/bn-do_authentication_1.tiff)
+![binary ninja do_authenicate() 2](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/bn-do_authentication_2.tiff)
 
 This function reads in three strings, a username, password, and token. The username is never used. I wasn't entirely sure what was going on here, so I broke before and after several of these functions, observing arguments going in and either the results or changes to buffers coming out. I have lost most of these comments, but in short I was observing strings going in, and 16-byte hexadecimal strings coming out.
 
