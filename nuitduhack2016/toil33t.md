@@ -1,5 +1,4 @@
-This is a web application which lets us log in using a username,
-password, and email. Once we login, we are provided with a cookie. We know that AES is being used, but we do not know the encryption mode.
+This is a web application which lets us log in using a username, password, and email. Once we login, we are provided with a cookie. We know that AES is being used, but we do not know the encryption mode. The goal is to login in as the administrator.  
 
 One of the main issues when examining cookies is determining if there is any pattern between user input and resulting cookie. Discerning this input-output relationship is closely related to detecting the block cipher mode of operation. 
 
@@ -13,8 +12,6 @@ In this case the longest common substring is `799a5dc4824d8f51e2a78524b1020705a6
 
 A long common substring tells you that the two encrypted cookies share data and usually means that ECB mode was used. The first cookies was created using the username 'a' and email 'a'. The second cookie was created using email 'b' and username 'b'. 
 
-Once we know ECB mode is being used, then we can mount a cut-paste-and-attack. 
-
 Looking the html source code of the web page we can find /session decrypts our cookie:
 
 `{
@@ -25,6 +22,7 @@ Looking the html source code of the web page we can find /session decrypts our c
 }`  
 
 So we know two pieces of information: 
-* The structure of the plain text cookie 
-* The encryped cookie was created with AES in ECB mode. 
+* The structure of the plain text cookie (determined by /session ) 
+* The encrypted cookie was created with AES in ECB mode (determined by longest common substring analysis) 
 
+Once we know this we can mount a cut-paste-and-attack to manipulate the final form of the cookie based on our initial input. We would like for the cookie to decrypt with "is_admin" set to true.  
