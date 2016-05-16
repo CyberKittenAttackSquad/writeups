@@ -32,9 +32,9 @@ Program received signal SIGINT, Interrupt.
 (gdb) 
 ```
 
-Several of these functions didn't disassemble in binary ninja, but I took some of these addresses and started hunting around for function preambles in the text editor and manually disassembling functions. Eventually I found my way to sub_401058 (that's #5 here), and this is the main function that does authentication.
+Several of these functions didn't disassemble in binary ninja, but I took some of these addresses and started hunting around for function preambles in the text editor and manually disassembling functions. Eventually I found my way to sub_401058 (that's #5 in our back trace), and this is the function that handles authentication.
 
-Of course, this wasn't the right way to do this. The right way to do this would be to start from `_start`, find `main`, and we would have found this function as the second one called. Normally this is what I would have done, but when there are only a few hours left and you're desparate for points *sometimes* the decision making progress is a little flawed.
+Of course, this wasn't the right way to do find this function. The right way to do this would be to start from `_start`, find `main`, and we would have found this function as the second one called. Normally this is what I would have done, but when there are only a few hours left in the CTF and you're desparate for points *sometimes* the decision making progress is a little flawed.
 
 Let's go to `main` and take a look.
 
@@ -51,16 +51,16 @@ Diving into the `do_authentication` function.
 ![binary ninja do_authenicate() 1](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-do_authentication_1.png)
 ![binary ninja do_authenicate() 2](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-do_authentication_2.png)
 
-This function reads in three strings, a username, password, and token. The username is never used. I wasn't entirely sure what was going on here, so I broke before and after several of these functions, observing arguments going in and either the results or changes to buffers coming out. I have lost most of these comments, but in short I was observing strings going in, and 16-byte hexadecimal strings coming out.
+This function reads in three strings, a username, password, and token. The username is never used. I wasn't entirely sure what was going on here, so I broke before and after several of these functions, observing arguments going in and either the results or changes to buffers coming out. I have lost most of these comments, but in short for some of these calls I was observing strings going in, and 16-byte hexadecimal strings coming out.
 
 I believed this was an MD5 function, but couldn't quite figure out what was gong on. Eventually I opened up the function now labeled `md5_string`, and the second function in there, `sub_4024d0` sets the `A`, `B`, `C`, `D` MD5 hash primitives. I now knew this `md5_string` function was correct.
 
 ![binary ninja md5_string()](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-md5_string.png)
 ![binary ninja sub_4024d0()](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-sub_4024d0.png)
 
-The problem I was having was initially was not accounting for newlines while debugging code. Once I accounted for this, I could correctly hash strings.
+The problem I was having here was not initially accounting for newlines being appended to the ends of my input strings. Once I understood the case, I could create the MD5 hashes needed, and verified we were using md5 here.
 
-Pseudocode, non-valid C for this function, which is not 100% accurate but more-or-less functionall correct, would be:
+Pseudocode, non-valid C for this function, which is not 100% accurate but more-or-less functionally correct, would be:
 
 ```c
 do_authenticate (long timestamp) {
@@ -84,7 +84,7 @@ Moving forward to the function called `probable_validate`.
 ![binary ninja probable_validate() 1](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-probable_validate_1.png)
 ![binary ninja probable_validate() 2](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/nx/hive/images/scaled/bn-probable_validate_2.png)
 
-By setting GDB breakpoints and observing functions, I noticed we first perform some arithmetic over the timestamp, divide the original timestamp by this arithmetic, sprintf the result and `md5_string` it. We then do some permutation over a string pushed onto the stack, and this string looks like an md5 hash, then cat the permutated string and the timestamp md5 hash together, md5 hash those, and compare that to the string we passed into `probable_validate(const char *, long)`.
+By setting GDB breakpoints and observing functions, I noticed we first perform some arithmetic over the timestamp, divide the original timestamp by this arithmetic, sprintf the result and `md5_string` it. We then do some permutation over a string pushed onto the stack, and this string looks like an md5 hash. We `strcat` the permutated string and the timestamp md5 hash together, md5 hash those, and compare that to the string we passed into `probable_validate(const char *, long)`.
 
 By setting some breakpoints, we discover what the permutated string is.
 
@@ -131,15 +131,11 @@ Based off this information, we need our two strings in `do_authentication`, IE t
 
 The second string in `probable_validate` is based off a timestamp. Not wanting to bother with reversing the arithmetic taking place, I decided to patch the `hive` binary like so:
 
- 1) Nop out the three calls to `get_string` in `do_authentication`.
-
- 2) Replace the instruction at `0x40121d` with a jump to some custom assembly which performs a system call to `read`, and reads in a timestamp.
-
- 3) Let the original binary perform the arithmetic and hasing over our given timestamp.
-
- 4) Drop in some custom assembly at `0x4012bc` and call `puts` over the md5 hash string of our timestamp.
- 
- 5) Call exit.
+1. Nop out the three calls to `get_string` in `do_authentication`.
+2. Replace the instruction at `0x40121d` with a jump to some custom assembly which performs a system call to `read`, and reads in a timestamp.
+3. Let the original binary perform the arithmetic and hasing over our given timestamp.
+4. Drop in some custom assembly at `0x4012bc` and call `puts` over the md5 hash string of our timestamp.
+5. Call exit.
 
 This patched binary is available in the `hive_patched` file. The assembly patches are available as comments in `hiveauth.py`.
 
