@@ -15,7 +15,7 @@ A long common substring tells you that the two encrypted cookies share data and 
 
 Once we know ECB mode is being used, then we can mount a cut-paste-and-attack. 
 
-Looking the html source code of the web page we can find  /session  decrypts our cookie:
+Looking the html source code of the web page we can find /session decrypts our cookie:
 
 `{
   "email": "a",
@@ -23,3 +23,6 @@ Looking the html source code of the web page we can find  /session  decrypts o
   "show_ad": false,
   "username": "a"
 }`  
+
+So we know two pieces of information. 1) The structure of the plain text cookie and 2) The encryped cookie was created with AES in ECB mode. 
+
