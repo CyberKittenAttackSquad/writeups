@@ -12,6 +12,6 @@ Some of these writeups follow a narrative, explaining what is going on while we 
 * We have a diverse team with experience in software development, formal program analysis, reverse-engineering, cryptography, exploit development, etc.. we cross train heavily and specialize when we need to. 
 * We use [pwntools](http://pwntools.readthedocs.io/en/2.2/) aka pwnlib. This help different people solve different portions of a challenge and quickly pass off work to one another.
 * We communicate over slack. If everyone is working, we have two channels for a competition, the *main* channel and the *alternate* channel, so we can work multiple challenges without stepping on one another.
-* We announce what we're working on with `!working <challenge_name>` and when we solve a challenge, we announce it with `!solved <challenge_name>`. This helps us ensure we aren't duplicating efforts.
+* We announce what we're working on with `!working <challenge_name>` and when we solve a challenge, we announce it with `!solved <challenge_name>`. This helps us ensure we aren't duplicating efforts. We periodically check on who is working on what throughout the CTF.
 * We have a standard VM in vagrant, ensuring everyone has access to a basic set of tools.
 
