@@ -11,6 +11,6 @@ Computing the longest common substring will give you longest string that is a su
 
 In this case the longest common substring is `799a5dc4824d8f51e2a78524b1020705a6eaf0fe5db99c6755c21f277aff95020ea7708a8f28694887deb53b8ecd855b`.  
 
-A long common substring tells you that the two encrypted cookies share data and usually means that ECB mode is being used. The first cookies was created using the username 'a' and email 'a'. The second cookie was created using email 'b' and username 'b'. 
+A long common substring tells you that the two encrypted cookies share data and usually means that ECB mode was used. The first cookies was created using the username 'a' and email 'a'. The second cookie was created using email 'b' and username 'b'. 
 
 Once we know ECB mode is being used, then we can mount a cut-paste-and-attack.  
