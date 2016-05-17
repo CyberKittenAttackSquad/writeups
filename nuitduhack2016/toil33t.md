@@ -2,7 +2,7 @@ This is a web application which lets us log in using a username, password, and e
 
 One of the main issues when examining cookies is determining if there is any pattern between user input and resulting cookie. Discerning this input-output relationship is closely related to detecting the block cipher mode of operation. 
 
-A method of detecting if an encrypted cookie was created using a weak mode (like ECB) is by solving the longest common substring problem. Usually ECB mode detection is demonstrated visually (https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_Codebook_.28ECB.29), but by computing the least common substring of data steams you can detect weak cipher modes that preserve structure of the plaintext.
+A method of detecting if an encrypted cookie was created using a weak mode (like ECB) is by solving the longest common substring problem. Usually ECB mode detection is demonstrated visually (https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_Codebook_.28ECB.29), but by computing the longest common substring of data steams you can detect weak cipher modes that preserve structure of the plaintext.
 
 Let's say you have cookies 
 * `e04a8615810d47c9feb9ac06df600ff0799a5dc4824d8f51e2a78524b1020705a6eaf0fe5db99c6755c21f277aff95020ea7708a8f28694887deb53b8ecd855ba90ef9d9ab0a1d5913baf5f4c592e484` 
