@@ -1,6 +1,6 @@
 # labyrinth
 
-Labyrinth was a 300 point re challenge. This challenge is broken down into four stages. The binary starts up a bind tcp fork server on port 9999. Connecting to the server, we're presented with the following prompt:
+Labyrinth was a 300 point re challenge. The binary starts up a bind tcp fork server on port 9999, and the player must solve four consecutive stages to retrieve a zip file, and then decrypt the zip file. Connecting to the server, we're presented with the following prompt:
 
 ```
 Welcome to the Labyrinth.  If you can navigate the deadly maze and answer the Guardian's riddles you will find the knowledge you seek...
@@ -117,7 +117,7 @@ Once we've passed translatify, the remote server will password protect the binar
 
 ![bn-keydata](https://github.com/CyberKittenAttackSquad/writeups/raw/master/jcc2016/re/labyrinth/images/scaled/bn-keydata.png)
 
-Running the binary a couple of times we notice that `keyData` will be equal to `BBBBAAAACCCCBASE64` where `BBBB` is the first four characters of the answer to our second question, `AAAA` is the first four character of the answer to our first question, and `CCCC` is the first four characters of the answer to our third question. Keep in our inputs will be uppercased by the binary.
+Running the binary a couple of times we notice that `keyData` will be equal to `BBBBAAAACCCCBASE64` where `BBBB` is the first four characters of the answer to our second question, `AAAA` is the first four character of the answer to our first question, and `CCCC` is the first four characters of the answer to our third question. Keep in mind our inputs will be uppercased by the binary.
 
 We now have everything we need to solve the challenge, retrieve the remote binary, and decrypt it.
 
